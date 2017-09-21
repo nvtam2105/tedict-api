@@ -1,7 +1,7 @@
 var express = require('express'),
   app = express(),
   conf = require('dotenv').config(),
-  port = process.env.PORT || 3000,
+  port = process.env.REST_API_PORT || 3000,
   mongoose = require('mongoose'),
   bodyParser = require('body-parser'),
   tedDictJob = require('./job/cron-job.js'),
