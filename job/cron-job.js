@@ -36,5 +36,5 @@ exports.run = function () {
               }
             });
       });
-  }, null, true, 'Asia/Ho_Chi_Minh');
+  }, null, true, process.env.TIME_ZONE);
 };
