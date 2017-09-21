@@ -3,13 +3,15 @@ var express = require('express'),
   conf = require('dotenv').config(),
   port = process.env.PORT || 3000,
   mongoose = require('mongoose'),
-  Talks = require('./api/models/talksModel'), //created model loading here
   bodyParser = require('body-parser'),
-  tedDictJob = require('./cron-job.js');
+  tedDictJob = require('./cron-job.js'),
+
+  Talks = require('./api/models/talksModel'); //created model loading here
+
 
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/tedict-api');
+mongoose.connect('mongodb://'+ process.env.DB_HOST +'/'+ process.env.DB_NAME, { useMongoClient: true });
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
