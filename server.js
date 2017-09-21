@@ -1,13 +1,11 @@
 var express = require('express'),
   app = express(),
   conf = require('dotenv').config(),
-
-
   port = process.env.PORT || 3000,
   mongoose = require('mongoose'),
-  Tasks = require('./api/models/talksModel'), //created model loading here
+  Talks = require('./api/models/talksModel'), //created model loading here
   bodyParser = require('body-parser'),
-  require('cron-job.js');
+  tedDictJob = require('./cron-job.js');
 
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;
@@ -26,3 +24,6 @@ app.use(function(req, res) {
 
 app.listen(port);
 console.log('tedict-api RESTful API server started on: ' + port);
+
+// Run job
+tedDictJob.tedDictJob();

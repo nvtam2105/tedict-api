@@ -15,10 +15,10 @@ var Schema = mongoose.Schema;
 
 var TalksSchema = new Schema({
   id: {
-    type: Integer
+    type: Number
   },
   event_id: {
-    type: Integer
+    type: Number
   },
   name: {
     type: String
