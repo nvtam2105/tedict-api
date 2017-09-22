@@ -21,7 +21,7 @@ exports.create_a_talk = function(req, res) {
 };
 
 exports.read_a_talk = function(req, res) {
-  Talks.findById(req.params.talkId, function(err, talk) {
+  Talks.findOne({ 'id': req.params.talkId }, function(err, talk) {
     if (err)
       res.send(err);
     res.json(talk);

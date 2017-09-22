@@ -6,6 +6,6 @@ module.exports = function(app) {
     .get(talks.list_all_talks)
     .post(talks.create_a_talk);
 
-  app.route('/tasks/:talkId')
+  app.route('/talks/:talkId')
     .get(talks.read_a_talk);
 };
