@@ -16,7 +16,7 @@ exports.run = function () {
 
   new cron.CronJob(process.env.CRON_TIME, function() {
       // get all news talks
-      request.get(strformat(process.env.API_TED_TALK_NEW, {limit: 5}), function(req, res) {
+      request.get(strformat(process.env.API_TED_TALK_NEW, {limit: process.env.MAX_NUM_TALK}), function(req, res) {
         var talks = JSON.parse(res.body).talks;
         forEach(talks, function(item, index) {
           var talkObj = item.talk;
