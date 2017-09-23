@@ -8,7 +8,8 @@ exports.run = function () {
       strformat = require('strformat'),
       transform = require('jsonpath-object-transform'),
       checkEndsWithPeriod = require("check-ends-with-period"),
-
+      forEach = require('async-foreach').forEach,
+      
       Utils = require("../utils/utils.js"),
       Talks = mongoose.model('Talks'),
       Scripts = mongoose.model('Scripts');
@@ -16,15 +17,16 @@ exports.run = function () {
   new cron.CronJob(process.env.CRON_TIME, function() {
         Talks.findOne().sort('-id').exec(function(err, res) {
             var maxId = res ? res.toObject().id : -1;
-            console.log("=================== " + maxId);
+            console.log("maxId =================== " + maxId);
             // get all news talks
             request.get(strformat(process.env.API_TED_NEW_TALK_URL, {limit: 5}), function(req, res) {
               var talks = JSON.parse(res.body).talks;
-              for (var index in talks) {
-                var talkObj = talks[index].talk;
+              forEach(talks, function(item, index) {
+                var talkObj = item.talk;
                 if (talkObj.id > maxId) {
+                    var talkId = talkObj.id;
                     // get talk detail
-                    request.get(strformat(process.env.API_TED_TALK_DETAIL, {id: talkObj.id}), function(req, res) {
+                    request.get(strformat(process.env.API_TED_TALK_DETAIL, {id: talkId}), function(req, res) {
                       var talkDetail = JSON.parse(res.body).talk;
                       var template = {
                         id : '$.id',
@@ -66,8 +68,10 @@ exports.run = function () {
                     });
 
                     // get subtitle
-                    request.get(strformat(process.env.API_TED_TALK_SUB, {id: talkObj.id}), function(req, res) {
+                    request.get(strformat(process.env.API_TED_TALK_SUB, {id: talkId}), function(req, res) {
                         var captions = JSON.parse(res.body).captions;
+                        console.log('3 === talkId.id = ' + talkId);
+                        console.log('4 === captions = ' + captions.length);
                         //console.log(captions);
                         var sentences = [];
                         var startSen = 0, endSen = 0;
@@ -107,21 +111,23 @@ exports.run = function () {
 
                         }
                         var script = {
-                          "talk_id" : talkObj.id || 0,
+                          "talk_id" : talkId || 0,
                           "sens" : sentences
 
                         }
-                        var new_script = new Scripts(script);
-                        new_script.save(function(err) {
-                             if (err)
-                              console.log(err);
-                        });
+                        if (talkId > 0) {
+                          var new_script = new Scripts(script);
+                          new_script.save(function(err) {
+                               if (err)
+                                console.log(err);
+                          });
+                        }
 
-                        console.log(sentences);
-                        console.log('============================');
+                        //console.log(sentences);
+                        //console.log('============================');
                     });
                 }
-              }
+              });
             });
       });
   }, null, true, process.env.TIME_ZONE);

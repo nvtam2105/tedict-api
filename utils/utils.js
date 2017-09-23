@@ -6,7 +6,7 @@ exports.parseSen = function(sen) {
       words = empty(sen) ? [] : sen.split(" ");
 
   for (var w in words) {
-    console.log(words[w]);
+    //console.log(words[w]);
     result.push({'text' : words[w]});
   }
   return result;
