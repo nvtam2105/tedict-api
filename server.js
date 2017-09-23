@@ -4,9 +4,10 @@ var express = require('express'),
   port = process.env.REST_API_PORT || 3000,
   mongoose = require('mongoose'),
   bodyParser = require('body-parser'),
-  tedDictJob = require('./job/cron-job.js'),
+  tedDictJob = require('./jobs/cron-job.js'),
 
-  Talks = require('./api/models/talksModel'); //created model loading here
+  Talks = require('./api/models/talksModel'), //created model loading here
+  Scripts = require('./api/models/scriptsModel'); //created model loading here
 
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;
