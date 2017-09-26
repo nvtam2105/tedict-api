@@ -8,7 +8,7 @@ exports.list_all_talks = function(req, res) {
     if (err)
       res.send(err);
     res.json(talk);
-  });
+  }).sort('-published_at');
 };
 
 exports.create_a_talk = function(req, res) {
