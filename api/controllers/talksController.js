@@ -8,7 +8,11 @@ exports.list_all_talks = function(req, res) {
     if (err)
       res.send(err);
     res.json(talk);
-  }).sort('-published_at');
+  })
+  .sort('-published_at')
+  .limit(parseInt(req.params.limit, 10))
+  .skip(parseInt(req.params.limit, 10) * parseInt(req.params.offset, 10));
+
 };
 
 exports.create_a_talk = function(req, res) {
