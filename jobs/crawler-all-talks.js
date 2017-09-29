@@ -87,8 +87,6 @@ exports.run = function () {
                             }
                         });
 
-                      } else {
-                          reject(res);
                       }
                     });
                   } else {
@@ -96,8 +94,6 @@ exports.run = function () {
                   }
                 });
               });
-            } else {
-              reject(res);
             }
           } else {
             reject(res);

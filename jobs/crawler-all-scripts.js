@@ -12,9 +12,8 @@ exports.run = function () {
       async = require('async'),
 
       Utils = require("../utils/utils.js"),
-      Talks = mongoose.model('Talks'),
+      //Talks = mongoose.model('Talks'),
       Scripts = mongoose.model('Scripts');
-
 
     // get all news talks
     var limit = parseInt(process.env.LIMIT, 10);
@@ -38,10 +37,10 @@ exports.run = function () {
               var talks = result.talks;
               forEach(talks, function(item, index) {
                 var talkObj = item.talk;
-                //console.log(" - Scripts talkId = " + talkObj.id);
-                Talks.findOne({ 'id': talkObj.id }, function(err, talk) {
-                  if (talk == null) {
-                    var talkId = talkObj.id;
+                var talkId = talkObj.id;
+                console.log(" - Scripts talkId = " + talkObj.id);
+                Scripts.findOne({ 'talk_id': talkObj.id }, function(err, script) {
+                  if (script == null) {
                     request.get(strformat(process.env.API_TED_TALK_SUB, {id: talkId}), function(req, res) {
                       if (typeof res !== "undefined" && typeof res.body !== "undefined") {
                           var captions = JSON.parse(res.body).captions;
@@ -113,7 +112,6 @@ exports.run = function () {
             reject(res);
           }
         });
-
       });
     }
 

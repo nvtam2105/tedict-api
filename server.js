@@ -30,8 +30,8 @@ console.log('tedict-api RESTful API server started on: ' + port);
 
 // Run job
 crawlerTalks.run();
-setTimeout(function(){
+setTimeout(function() {
   crawlerScripts.run();
 }, 300000);
 
-tedDictJob.run();
+//tedDictJob.run();
