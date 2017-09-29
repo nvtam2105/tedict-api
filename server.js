@@ -6,6 +6,7 @@ var express = require('express'),
   bodyParser = require('body-parser'),
   tedDictJob = require('./jobs/cron-job.js'),
   crawlerTalks = require('./jobs/crawler-all-talks.js'),
+  crawlerScripts = require('./jobs/crawler-all-scripts.js'),
 
   Talks = require('./api/models/talksModel'), //created model loading here
   Scripts = require('./api/models/scriptsModel'); //created model loading here
@@ -29,4 +30,8 @@ console.log('tedict-api RESTful API server started on: ' + port);
 
 // Run job
 crawlerTalks.run();
+setTimeout(function(){
+  crawlerScripts.run();
+}, 300000);
+
 tedDictJob.run();
