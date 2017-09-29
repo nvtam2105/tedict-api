@@ -29,9 +29,9 @@ app.listen(port);
 console.log('tedict-api RESTful API server started on: ' + port);
 
 // Run job
-crawlerTalks.run();
-setTimeout(function() {
+// crawlerTalks.run();
+// setTimeout(function() {
   crawlerScripts.run();
-}, 300000);
+// }, 300000);
 
 //tedDictJob.run();

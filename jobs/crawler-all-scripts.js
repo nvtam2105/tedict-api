@@ -42,7 +42,7 @@ exports.run = function () {
                 Scripts.findOne({ 'talk_id': talkObj.id }, function(err, script) {
                   if (script == null) {
                     request.get(strformat(process.env.API_TED_TALK_SUB, {id: talkId}), function(req, res) {
-                      if (typeof res !== "undefined" && typeof res.body !== "undefined") {
+                      if (typeof res !== "undefined" && typeof res.body !== "undefined" && res.body.length > 0) {
                           var captions = JSON.parse(res.body).captions;
                           var sentences = [];
                           var startSen = 0, endSen = 0;
@@ -96,12 +96,8 @@ exports.run = function () {
                                   }
                             });
                           }
-                      } else {
-                        reject(res);
                       }
                     });
-                  } else {
-                    reject(res);
                   }
                 });
               });
