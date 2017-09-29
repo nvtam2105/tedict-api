@@ -32,7 +32,7 @@ exports.run = function () {
       console.log(" - crawlerTalks Offset = " + offset);
       return new Promise(function(resolve, reject) {
         request.get(strformat(process.env.API_TED_TALK_ALL, {limit: limit, offset: offset}), function(req, res) {
-          if (typeof res !== "undefined" && typeof res.body !== "undefined") {
+          if (typeof res !== "undefined" && typeof res.body !== "undefined" && res.body.length >0 ) {
             var result = JSON.parse(res.body);
             if (result.counts.this >0) {
               var talks = result.talks;
@@ -44,7 +44,7 @@ exports.run = function () {
                     var talkId = talkObj.id;
                     // get talk detail
                     request.get(strformat(process.env.API_TED_TALK_DETAIL, {id: talkId}), function(req, res) {
-                      if (typeof res !== "undefined" && typeof res.body !== "undefined") {
+                      if (typeof res !== "undefined" && typeof res.body !== "undefined" && res.body.length > 0) {
                         var talkDetail = JSON.parse(res.body).talk;
                         var template = {
                           id : '$.id',
