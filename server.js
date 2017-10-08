@@ -28,11 +28,11 @@ app.use(function(req, res) {
 app.listen(port);
 console.log('tedict-api RESTful API server started on: ' + port);
 
-// Run job
-// crawlerTalks.run();
-// setTimeout(function() {
-//   crawlerScripts.run();
-// }, 300000);
+// // Run job
+//  crawlerTalks.run();
+//  setTimeout(function() {
+//    crawlerScripts.run();
+//  }, 60000);
 //setTimeout(function() {
-  tedDictJob.run();
+ tedDictJob.run();
 //}, 900000);
