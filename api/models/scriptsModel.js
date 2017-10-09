@@ -5,8 +5,8 @@ var Schema = mongoose.Schema;
 var ScriptsSchema = new Schema({
   talk_id: {type: Number},
   sens: [{
-      startTime: Number,
-      duration: Number,
+      start: Number,
+      end: Number,
       content: String,
       words: [{text: String}]
     }]
