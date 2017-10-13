@@ -21,7 +21,7 @@ function convertVttToJson(vttString) {
           start = false
         }
       } else {
-        if (start) { 
+        if (start) {
           current.content += ' ' + line
         }
       }
@@ -45,6 +45,9 @@ function convertVttToJson(vttString) {
             'content': ''
           };
 
+          if (startSen === 0) {
+            startSen = -1
+          }
           sen.start = sections[startSen + 1].start;
 
           for (var j = startSen + 1; j <= endSen; j++) {

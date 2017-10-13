@@ -6,6 +6,9 @@ module.exports = function(app) {
   app.route('/talks/:limit/:offset')
     .get(talks.list_all_talks);
 
+  app.route('/talks/:search/:limit/:offset')
+      .get(talks.list_all_talks);
+
   app.route('/talks/:talkId')
     .get(talks.read_a_talk);
 

@@ -4,7 +4,13 @@ var mongoose = require('mongoose'),
 Talks = mongoose.model('Talks');
 
 exports.list_all_talks = function(req, res) {
-  Talks.find({}, function(err, talk) {
+  var search_key = req.params.search;
+  var criteria = {};
+  if (search_key) {
+    criteria = {'name': { $regex: '.*' + search_key + '.*' }};
+  }
+  console.log(criteria);
+  Talks.find(criteria, function(err, talk) {
     if (err)
       res.send(err);
     res.json(talk);
