@@ -31,7 +31,8 @@ function convertVttToJson(vttString) {
     var sentences = [];
     var startSen = 0, endSen = 0;
     sections.forEach((section, index) => {
-      if (checkEndsWithPeriod(section.content, { periodMarks: [".", "?", "!", ".\"",".\'", "!\"", "?\"", "!\'", "?\'"] }).valid) {
+      if (checkEndsWithPeriod(section.content, {
+            periodMarks: [".", "?", "!", ".\"",".\'", "!\"", "?\"", "!\'", "?\'"] }).valid) {
         var sen;
         endSen = index;
         if (endSen == startSen) {
@@ -46,8 +47,14 @@ function convertVttToJson(vttString) {
           };
 
           if (startSen === 0) {
+<<<<<<< HEAD
             startSen = -1
           }
+=======
+            startSen = -1;
+          }
+
+>>>>>>> 6619f36d870c16e664b7fae61b98f5ae54e15421
           sen.start = sections[startSen + 1].start;
 
           for (var j = startSen + 1; j <= endSen; j++) {
