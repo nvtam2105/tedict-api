@@ -10,15 +10,17 @@ exports.list_all_talks = function(req, res) {
     criteria = {'name': { $regex: '.*' + search_key + '.*' }};
   }
   console.log(criteria);
-  Talks.find(criteria, function(err, talk) {
-    if (err)
-      res.send(err);
-    res.json(talk);
-  })
-  .sort('-published_at')
-  .limit(parseInt(req.params.limit, 10))
-  .skip(parseInt(req.params.limit, 10) * parseInt(req.params.offset, 10));
-
+  Talks.
+    find(criteria).
+    sort('-published_at').
+    limit(parseInt(req.params.limit, 10)).
+    skip(parseInt(req.params.limit, 10) * parseInt(req.params.offset, 10)).
+    select({'name': 1,  'langs.name': 1}).
+    exec(function(err, talk) {
+        if (err)
+          res.send(err);
+        res.json(talk);
+    });
 };
 
 exports.create_a_talk = function(req, res) {
