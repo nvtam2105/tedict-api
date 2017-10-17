@@ -38,14 +38,16 @@ exports.run = function () {
             forEach(talks, function (item, index) {
               var talkObj = item.talk;
               var talkId = talkObj.id;
+              var nativeLanguageCode = talkObj.native_language_code;
               console.log(" - Scripts talkId = " + talkObj.id);
               Scripts.findOne({ 'talk_id': talkObj.id }, function (err, script) {
                 if (script == null) {
-                  request.get(strformat(process.env.API_TED_TALK_SUB, { id: talkId }), function (req, res) {
+                  request.get(strformat(process.env.API_TED_TALK_SUB_EN, { id: talkId }), function (req, res) {
                     if (typeof res !== "undefined" && typeof res.body !== "undefined" && res.body.length > 0) {
                       var sens = vttToJson(res.body).then(function (sens) {
                         var script = {
                           "talk_id": talkId || 0,
+                          "lang": nativeLanguageCode,
                           "sens": sens
                         }
                         if (talkId > 0) {

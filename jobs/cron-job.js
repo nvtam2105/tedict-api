@@ -75,7 +75,7 @@ exports.run = function () {
                   result.name = result.name.replace(result.speaker + ': ', '');
 
 
-                  console.log(result);
+                  //console.log(result);
                   var new_talk = new Talks(result);
                   new_talk.save(function (err) {
                     if (err)
@@ -84,8 +84,8 @@ exports.run = function () {
                 }
               });
               // get talk script
-              console.log(strformat(process.env.API_TED_TALK_SUB, { id: talkId }));
-              request.get(strformat(process.env.API_TED_TALK_SUB, { id: talkId }), function (req, res) {
+              console.log(strformat(process.env.API_TED_TALK_SUB_EN, { id: talkId }));
+              request.get(strformat(process.env.API_TED_TALK_SUB_EN, { id: talkId }), function (req, res) {
                 if (typeof res !== "undefined" && typeof res.body !== "undefined" && res.body.length > 0) {
                   //console.log(vttToJson(res.body));
                   var sens = vttToJson(res.body).then(function (sens) {

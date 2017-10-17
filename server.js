@@ -29,7 +29,7 @@ app.listen(port);
 console.log('tedict-api RESTful API server started on: ' + port);
 
 // // Run job
-//crawlerTalks.run();
+crawlerTalks.run();
 //  setTimeout(function() {
 //crawlerScripts.run();
 //  }, 60000);

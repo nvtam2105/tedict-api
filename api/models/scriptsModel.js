@@ -4,6 +4,7 @@ var Schema = mongoose.Schema;
 
 var ScriptsSchema = new Schema({
   talk_id: {type: Number},
+  lang: {type: String},
   sens: [{
       start: Number,
       end: Number,
