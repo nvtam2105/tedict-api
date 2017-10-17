@@ -56,56 +56,52 @@ exports.run = function () {
                         description: '$.description',
                         //image: '$..images[2]..url',
                         tag: '$..tags[0]..tag',
-    
+
                         speaker: '$..speakers[0]..name',
                         slug: '$.slug',
                         published_at: '$.published_at',
                         recorded_at: '$.recorded_at',
                         updated_at: '$.updated_at',
                         viewed_count: '$.viewed_count',
-                        
+
                         image_16x9: '$.image_16x9',
                         images: ['$.images', { size: '$.image.size', url: '$.image.url' }],
                         speakers: ['$.speakers', { name: '$.speaker.name' }],
                         tags: ['$.tags', { name: '$.tag' }]
-    
+
                       };
-    
+
                       var result = transform(talkDetail, template);
                       result.native_language_code = nativeLanguageCode;
-                      
+
                       result.medias = [];
                       for (var key in talkDetail.media.internal) {
                         var obj = talkDetail.media.internal[key];
                         result.medias.push({ 'name': key, 'url': obj.uri, 'size': obj.filesize_bytes, 'mime_type': obj.mime_type });
                       };
-    
+
                       var imagesResult = result.images;
-                      if (typeof imagesResult[2] !== "undefined") {
-                        result.image = imagesResult[2].url;
-                      } else if (typeof imagesResult[1] !== "undefined") {
+                      if (typeof imagesResult[1] !== "undefined") {
                         result.image = imagesResult[1].url;
                       } else if (typeof imagesResult[0] !== "undefined") {
                         result.image = imagesResult[0].url;
                       } else {
                         result.image = result.image_16x9;
                       }
-    
-                      if (typeof result.medias[2] !== "undefined") {
-                        result.media = result.medias[2].url;
-                      } else if (typeof result.medias[1] !== "undefined") {
-                        result.media = result.medias[1].url;
-                      } else if (typeof result.medias[0] !== "undefined") {
+
+                      // if (typeof result.medias[1] !== "undefined") {
+                      //   result.media = result.medias[1].url;
+                      // } else 
+                      if (typeof result.medias[0] !== "undefined") {
                         result.media = result.medias[0].url;
                       }
-                      
-    
+
                       result.langs = [];
                       for (var key in talkDetail.languages) {
                         var obj = talkDetail.languages[key];
                         result.langs.push({ 'code': key, 'name': obj.name });
                       };
-    
+
                       // Truncate data again
                       result.name = result.name.replace(result.speaker + ': ', '');
 

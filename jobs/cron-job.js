@@ -72,11 +72,10 @@ exports.run = function () {
                     result.image = result.image_16x9;
                   }
 
-                  if (typeof result.medias[2] !== "undefined") {
-                    result.media = result.medias[2].url;
-                  } else if (typeof medias[1] !== "undefined") {
-                    result.media = result.medias[1].url;
-                  } else if (typeof medias[0] !== "undefined") {
+                  // if (typeof result.medias[1] !== "undefined") {
+                  //   result.media = result.medias[1].url;
+                  // } else 
+                  if (typeof result.medias[0] !== "undefined") {
                     result.media = result.medias[0].url;
                   }
 
@@ -107,6 +106,7 @@ exports.run = function () {
                   var sens = vttToJson(res.body).then(function (sens) {
                     var script = {
                       "talk_id": talkId || 0,
+                      "lang": nativeLanguageCode,
                       "sens": sens
                     }
                     if (talkId > 0) {
