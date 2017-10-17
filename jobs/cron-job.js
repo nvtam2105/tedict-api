@@ -46,7 +46,7 @@ exports.run = function () {
                     recorded_at: '$.recorded_at',
                     updated_at: '$.updated_at',
                     viewed_count: '$.viewed_count',
-                    
+
                     image_16x9: '$.image_16x9',
                     images: ['$.images', { size: '$.image.size', url: '$.image.url' }],
                     speakers: ['$.speakers', { name: '$.speaker.name' }],
@@ -56,7 +56,7 @@ exports.run = function () {
 
                   var result = transform(talkDetail, template);
                   result.native_language_code = nativeLanguageCode;
-                  
+
                   result.medias = [];
                   for (var key in talkDetail.media.internal) {
                     var obj = talkDetail.media.internal[key];
@@ -64,9 +64,7 @@ exports.run = function () {
                   };
 
                   var images = result.images;
-                  if (typeof images[2] !== "undefined") {
-                    result.image = images[2].url;
-                  } else if (typeof images[1] !== "undefined") {
+                  if (typeof images[1] !== "undefined") {
                     result.image = images[1].url;
                   } else if (typeof images[0] !== "undefined") {
                     result.image = images[0].url;
@@ -81,7 +79,7 @@ exports.run = function () {
                   } else if (typeof medias[0] !== "undefined") {
                     result.media = result.medias[0].url;
                   }
-                  
+
 
                   result.langs = [];
                   for (var key in talkDetail.languages) {
