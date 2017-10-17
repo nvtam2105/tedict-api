@@ -37,7 +37,7 @@ exports.run = function () {
                     event: '$.event.name',
                     name: '$.name',
                     description: '$.description',
-                    image: '$..images[2]..url',
+                    //image: '$..images[2]..url',
                     tag: '$..tags[0]..tag',
 
                     speaker: '$..speakers[0]..name',
@@ -63,7 +63,25 @@ exports.run = function () {
                     result.medias.push({ 'name': key, 'url': obj.uri, 'size': obj.filesize_bytes, 'mime_type': obj.mime_type });
                   };
 
-                  result.media = result.medias[2].url;
+                  var images = result.images;
+                  if (typeof images[2] !== "undefined") {
+                    result.image = images[2].url;
+                  } else if (typeof images[1] !== "undefined") {
+                    result.image = images[1].url;
+                  } else if (typeof images[0] !== "undefined") {
+                    result.image = images[0].url;
+                  } else {
+                    result.image = result.image_16x9;
+                  }
+
+                  if (typeof medias[2] !== "undefined") {
+                    result.media = result.medias[2].url;
+                  } else if (typeof medias[1] !== "undefined") {
+                    result.media = result.medias[1].url;
+                  } else if (typeof medias[0] !== "undefined") {
+                    result.media = result.medias[0].url;
+                  }
+                  
 
                   result.langs = [];
                   for (var key in talkDetail.languages) {
