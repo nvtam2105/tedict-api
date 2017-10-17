@@ -74,7 +74,7 @@ exports.run = function () {
                     result.image = result.image_16x9;
                   }
 
-                  if (typeof medias[2] !== "undefined") {
+                  if (typeof result.medias[2] !== "undefined") {
                     result.media = result.medias[2].url;
                   } else if (typeof medias[1] !== "undefined") {
                     result.media = result.medias[1].url;
