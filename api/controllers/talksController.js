@@ -15,7 +15,20 @@ exports.list_all_talks = function(req, res) {
     sort('-published_at').
     limit(parseInt(req.params.limit, 10)).
     skip(parseInt(req.params.limit, 10) * parseInt(req.params.offset, 10)).
-    select({'name': 1,  'langs.name': 1}).
+    select({'_id': 0, 
+            'id': 1 ,
+            'event': 1,
+            'name': 1,
+            'description' : 1,
+            'native_language_code': 1, 
+            'speaker': 1,
+            'published_at': 1,
+            'recorded_at': 1,
+            'updated_at': 1,
+            'viewed_count': 1,
+            'image': 1,
+            'media': 1,
+            'tag': 1}).
     exec(function(err, talk) {
         if (err)
           res.send(err);
