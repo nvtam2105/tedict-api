@@ -50,13 +50,14 @@ exports.run = function () {
                           "lang": nativeLanguageCode,
                           "sens": sens
                         }
+                        var length = sens[sens.length - 1].end;
                         if (talkId > 0) {
                           var new_script = new Scripts(script);
                           new_script.save(function (err) {
                             if (err)
                               reject(err);
                             else {
-                              Talks.update({ id: talkId }, { $set: { has_sub: true } }, function (err, talk) {
+                              Talks.update({ id: talkId }, { $set: { has_sub: true, length: length } }, function (err, talk) {
                                 if (err)
                                   console.log(err);
                               });

@@ -31,6 +31,7 @@ exports.list_all_talks = function (req, res) {
       'image': 1,
       'media': 1,
       'tag': 1,
+      'length': 1,
       'has_sub': 1,
     }).
     exec(function (err, talk) {
@@ -67,6 +68,7 @@ exports.read_a_talk = function (req, res) {
       'image': 1,
       'media': 1,
       'tag': 1,
+      'length': 1,
       'has_sub': 1,
     }).
     exec(function (err, talk) {
