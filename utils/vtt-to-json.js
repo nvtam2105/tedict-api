@@ -7,6 +7,8 @@ function convertVttToJson(vttString) {
     var sections = []
     var start = false;
     var vttArray = vttString.split('\n');
+
+
     vttArray.forEach((line, index) => {
       if (line.indexOf('-->') !== -1) { // get start time and end time
         start = true
@@ -32,7 +34,8 @@ function convertVttToJson(vttString) {
     var startSen = 0, endSen = 0;
     sections.forEach((section, index) => {
       if (checkEndsWithPeriod(section.content, {
-            periodMarks: [".", "?", "!", ".\"",".\'", "!\"", "?\"", "!\'", "?\'"] }).valid) {
+        periodMarks: [".", "?", "!", ".\"", ".\'", "!\"", "?\"", "!\'", "?\'"]
+      }).valid) {
         var sen;
         endSen = index;
         if (endSen == startSen) {
@@ -56,17 +59,20 @@ function convertVttToJson(vttString) {
             sen.end = sections[j].end;
           }
           sen.content = sen.content.trim();
-          sen.words = Utils.parseSen(sen.content);
+          Utils.parseSen(sen.content).then(function (res, err) {
+            console.log("333");
+            sen.words = res;
+          });
           startSen = endSen;
 
         }
         // check content before push into array
-        if (!empty(sen.content) && sen.content[0] !== '(' && sen.content[sen.content.length-1] !== ')') {
+        if (!empty(sen.content) && sen.content[0] !== '(' && sen.content[sen.content.length - 1] !== ')') {
           sentences.push(sen)
         }
       }
     })
-
+    console.log(sentences);
     resolve(sentences);
   })
 }
