@@ -60,7 +60,10 @@ function convertVttToJson(vttString) {
           startSen = endSen;
 
         }
-        sentences.push(sen)
+        // check content before push into array
+        if (!empty(sen.content) && sen.content[0] !== '(' && sen.content[sen.content.length-1] !== ')') {
+          sentences.push(sen)
+        }
       }
     })
 
