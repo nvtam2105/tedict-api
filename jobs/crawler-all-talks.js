@@ -15,6 +15,7 @@ exports.run = function () {
     Utils = require("../utils/utils.js"),
     Talks = mongoose.model('Talks'),
     Scripts = mongoose.model('Scripts');
+
   var limit = parseInt(process.env.LIMIT, 10);
   var total = 3000 / limit;
   var offset = 0;

@@ -12,7 +12,7 @@ exports.run = function () {
     async = require('async'),
     vttToJson = require("../utils/vtt-to-json"),
     Utils = require("../utils/utils.js"),
-    //Talks = mongoose.model('Talks'),
+    Talks = mongoose.model('Talks'),
     Scripts = mongoose.model('Scripts');
 
   // get all news talks
@@ -52,12 +52,16 @@ exports.run = function () {
                         }
                         if (talkId > 0) {
                           var new_script = new Scripts(script);
-                          new_script.save(function(err) {
-                               if (err)
-                                reject(err);
-                                else {
-                                  resolve(new_script);
-                                }
+                          new_script.save(function (err) {
+                            if (err)
+                              reject(err);
+                            else {
+                              Talks.update({ id: talkId }, { $set: { has_sub: true } }, function (err, talk) {
+                                if (err)
+                                  console.log(err);
+                              });
+                              resolve(new_script);
+                            }
                           });
                         }
                       });

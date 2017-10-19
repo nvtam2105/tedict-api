@@ -23,7 +23,9 @@ var TalksSchema = new Schema({
   speakers: [{name: String}],
   tags: [{name: String}],
   medias: [{name: String, url: String, size: Number, mime_type: String}],
-  langs: [{code: String, name: String}]
+  langs: [{code: String, name: String}],
+
+  has_sub: {type: Boolean, default: false},
 });
 
 module.exports = mongoose.model('Talks', TalksSchema);

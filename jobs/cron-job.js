@@ -24,9 +24,9 @@ exports.run = function () {
         var talks = JSON.parse(res.body).talks;
         forEach(talks, function (item, index) {
           var talkObj = item.talk;
-          Talks.findOne({ 'id': talkObj.id }, function (err, talk) {
-            if (talk == null) {
-              var talkId = talkObj.id;
+          var talkId = talkObj.id;
+          Talks.findOne({ 'id': talkId }, function (err, talk) {
+            if (talk === null) {
               var nativeLanguageCode = talkObj.native_language_code;
               // get talk detail
               request.get(strformat(process.env.API_TED_TALK_DETAIL, { id: talkId }), function (req, res) {
@@ -102,7 +102,6 @@ exports.run = function () {
               console.log(strformat(process.env.API_TED_TALK_SUB_EN, { id: talkId }));
               request.get(strformat(process.env.API_TED_TALK_SUB_EN, { id: talkId }), function (req, res) {
                 if (typeof res !== "undefined" && typeof res.body !== "undefined" && res.body.length > 0) {
-                  //console.log(vttToJson(res.body));
                   var sens = vttToJson(res.body).then(function (sens) {
                     var script = {
                       "talk_id": talkId || 0,
@@ -114,6 +113,39 @@ exports.run = function () {
                       new_script.save(function (err) {
                         if (err)
                           console.log(err);
+                        Talks.findOneAndUpdate({ 'id': talkId }, { 'has_sub': true }, function (err, talk) {
+                          if (err)
+                            console.log(err);
+                        });
+                      });
+                    }
+                  });
+
+                }
+              });
+            }
+
+            if (talk !== null && !talk.has_sub) {
+              console.log(strformat(process.env.API_TED_TALK_SUB_EN, { id: talkId }));
+              request.get(strformat(process.env.API_TED_TALK_SUB_EN, { id: talkId }), function (req, res) {
+                if (typeof res !== "undefined" && typeof res.body !== "undefined" && res.body.length > 0) {
+                  var sens = vttToJson(res.body).then(function (sens) {
+                    var script = {
+                      "talk_id": talkId || 0,
+                      "lang": nativeLanguageCode,
+                      "sens": sens
+                    }
+                    if (talkId > 0) {
+                      var new_script = new Scripts(script);
+                      new_script.save(function (err) {
+                        if (err) {
+                          console.log(err);
+                        } else {
+                          Talks.update({ id: talkId }, { $set: { has_sub: true } }, function (err, talk) {
+                            if (err)
+                              console.log(err);
+                          });
+                        }
                       });
                     }
                   });

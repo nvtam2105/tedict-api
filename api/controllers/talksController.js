@@ -30,7 +30,8 @@ exports.list_all_talks = function (req, res) {
       'viewed_count': 1,
       'image': 1,
       'media': 1,
-      'tag': 1
+      'tag': 1,
+      'has_sub': 1,
     }).
     exec(function (err, talk) {
       if (err)
@@ -65,7 +66,8 @@ exports.read_a_talk = function (req, res) {
       'viewed_count': 1,
       'image': 1,
       'media': 1,
-      'tag': 1
+      'tag': 1,
+      'has_sub': 1,
     }).
     exec(function (err, talk) {
       if (err)
