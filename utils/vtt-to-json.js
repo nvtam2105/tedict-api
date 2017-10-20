@@ -70,7 +70,7 @@ function convertVttToJson(vttString) {
         }
       }
     })
-    console.log(sentences);
+    //console.log(sentences);
     resolve(sentences);
   })
 }

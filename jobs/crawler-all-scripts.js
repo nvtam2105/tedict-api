@@ -72,6 +72,8 @@ exports.run = function () {
                                 resolve(new_script);
                               }
                             });
+                          } else {
+                             reject(script);
                           }
                         });
                       });

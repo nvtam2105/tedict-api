@@ -10,11 +10,11 @@ exports.parseSen = function (sen) {
     var checkEndsWithPeriod = require("check-ends-with-period");
 
     async.eachSeries(words, function iteratee(word, callback) {
-      var text = word.trim().replace("\"","").replace("\'","");
-      if (checkEndsWithPeriod(word, { periodMarks: [".", "?", "!", ","] }).valid) {
-        text = word.substring(0, word.length - 1)
-      } else if (checkEndsWithPeriod(word, { periodMarks: [".\"", ".\'", "!\"", "?\"", "!\'", "?\'"] }).valid) {
-        text = word.substring(0, word.length - 2)
+      var text = word.trim().replace("\"", "").replace("\'", "");
+      if (checkEndsWithPeriod(text, { periodMarks: [".", "?", "!", ","] }).valid) {
+        text = text.substring(0, text.length - 1)
+      } else if (checkEndsWithPeriod(text, { periodMarks: [".\"", ".\'", "!\"", "?\"", "!\'", "?\'"] }).valid) {
+        text = text.substring(0, text.length - 2)
       }
 
       getTypeWord(text).then(function (res, err) {
