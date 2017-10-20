@@ -57,10 +57,8 @@ function convertVttToJson(vttString) {
             sen.end = sections[j].end;
           }
           sen.content = sen.content.trim();
-          // Utils.parseSen(sen.content).then(function (res, err) {
-          //   console.log(res);
-          //  sen.words = res;
-          // });
+          sen.words = Utils.parseSen(sen.content);
+        
           startSen = endSen;
 
         }

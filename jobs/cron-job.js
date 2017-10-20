@@ -150,12 +150,12 @@ exports.run = function () {
       request.get(strformat(process.env.API_TED_TALK_SUB_EN, { id: talkId }), function (req, res) {
         if (typeof res !== "undefined" && typeof res.body !== "undefined" && res.body.length > 0) {
           vttToJson(res.body).then(function (sens) {
-            async.eachSeries(sens, function iteratee(sen, callback) {
-              Utils.parseSen(sen.content).then(function (res, err) {
-                sen.words = res;
-                callback();
-              });
-            }, function () {
+            // async.eachSeries(sens, function iteratee(sen, callback) {
+            //   Utils.parseSen(sen.content).then(function (res, err) {
+            //     sen.words = res;
+            //     callback();
+            //   });
+            // }, function () {
 
               var script = {
                 "talk_id": talkId || 0,
@@ -178,8 +178,7 @@ exports.run = function () {
                   }
                 });
               }
-
-            });
+            //});
           });
         } else {
           resolve(res);

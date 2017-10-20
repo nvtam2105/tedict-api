@@ -1,6 +1,25 @@
 'use strict';
 
 exports.parseSen = function (sen) {
+  var result = [];
+  var words = empty(sen) ? [] : sen.split(" ");
+
+  for (var w in words) {
+    if (!empty(words[w])) {
+      var text = words[w].trim().replace("\"", "").replace("\'", "");
+      if (checkEndsWithPeriod(text, { periodMarks: [".", "?", "!", ","] }).valid) {
+        text = text.substring(0, text.length - 1)
+      } else if (checkEndsWithPeriod(text, { periodMarks: [".\"", ".\'", "!\"", "?\"", "!\'", "?\'"] }).valid) {
+        text = text.substring(0, text.length - 2)
+      }
+      
+      result.push({ 'text': words[w], 'length': text.length });
+    }
+  }
+  return result;
+}
+
+exports.parseSenAndGetType = function (sen) {
   return new Promise(function (resolve, reject) {
     var async = require('async'),
       empty = require('is-empty'),
