@@ -2,6 +2,8 @@
 
 exports.parseSen = function (sen) {
   var result = [];
+  var empty = require('is-empty'),
+      checkEndsWithPeriod = require("check-ends-with-period");
   var words = empty(sen) ? [] : sen.split(" ");
 
   for (var w in words) {
