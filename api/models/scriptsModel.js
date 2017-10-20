@@ -9,7 +9,7 @@ var ScriptsSchema = new Schema({
     start: Number,
     end: Number,
     content: String,
-    words: [{ text: String, type: String }]
+    words: [{ text: String, type: { type: String, default: 'NA' } }]
   }]
 });
 

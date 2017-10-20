@@ -1,7 +1,6 @@
 'use strict';
 
 exports.run = function () {
-  //return new Promise(function(resolve, reject) {
   var request = require('request'),
     _ = require('lodash'),
     conf = require('dotenv').config(),
@@ -131,6 +130,4 @@ exports.run = function () {
 
     });
   }
-
-  //});
 };

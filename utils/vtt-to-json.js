@@ -33,9 +33,7 @@ function convertVttToJson(vttString) {
     var sentences = [];
     var startSen = 0, endSen = 0;
     sections.forEach((section, index) => {
-      if (checkEndsWithPeriod(section.content, {
-        periodMarks: [".", "?", "!", ".\"", ".\'", "!\"", "?\"", "!\'", "?\'"]
-      }).valid) {
+      if (checkEndsWithPeriod(section.content, { periodMarks: [".", "?", "!", ".\"", ".\'", "!\"", "?\"", "!\'", "?\'"] }).valid) {
         var sen;
         endSen = index;
         if (endSen == startSen) {
@@ -59,10 +57,10 @@ function convertVttToJson(vttString) {
             sen.end = sections[j].end;
           }
           sen.content = sen.content.trim();
-          Utils.parseSen(sen.content).then(function (res, err) {
-            console.log("333");
-            sen.words = res;
-          });
+          // Utils.parseSen(sen.content).then(function (res, err) {
+          //   console.log(res);
+          //  sen.words = res;
+          // });
           startSen = endSen;
 
         }

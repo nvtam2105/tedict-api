@@ -44,27 +44,36 @@ exports.run = function () {
                 if (script == null) {
                   request.get(strformat(process.env.API_TED_TALK_SUB_EN, { id: talkId }), function (req, res) {
                     if (typeof res !== "undefined" && typeof res.body !== "undefined" && res.body.length > 0) {
-                      var sens = vttToJson(res.body).then(function (sens) {
-                        var script = {
-                          "talk_id": talkId || 0,
-                          "lang": nativeLanguageCode,
-                          "sens": sens
-                        }
-                        var length = sens[sens.length - 1].end;
-                        if (talkId > 0) {
-                          var new_script = new Scripts(script);
-                          new_script.save(function (err) {
-                            if (err)
-                              reject(err);
-                            else {
-                              Talks.update({ id: talkId }, { $set: { has_sub: true, length: length } }, function (err, talk) {
-                                if (err)
-                                  console.log(err);
-                              });
-                              resolve(new_script);
-                            }
+                      vttToJson(res.body).then(function (sens) {
+                        async.eachSeries(sens, function iteratee(sen, callback) {
+                          Utils.parseSen(sen.content).then(function (res, err) {
+                            sen.words = res;
+                            callback();
                           });
-                        }
+                        }, function () {
+
+                          var script = {
+                            "talk_id": talkId || 0,
+                            "lang": nativeLanguageCode,
+                            "sens": sens
+                          }
+                          var length = sens[sens.length - 1].end;
+                          if (talkId > 0) {
+                            var new_script = new Scripts(script);
+                            new_script.save(function (err) {
+                              if (err) {
+                                console.log(err);
+                                resolve(err);
+                              } else {
+                                Talks.update({ id: talkId }, { $set: { has_sub: true, length: length } }, function (err, talk) {
+                                  if (err)
+                                    console.log(err);
+                                });
+                                resolve(new_script);
+                              }
+                            });
+                          }
+                        });
                       });
                     }
                   });

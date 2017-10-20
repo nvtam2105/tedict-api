@@ -4,20 +4,27 @@ exports.parseSen = function (sen) {
   return new Promise(function (resolve, reject) {
     var async = require('async'),
       empty = require('is-empty'),
+
       results = [],
       words = empty(sen) ? [] : sen.split(" ");
+    var checkEndsWithPeriod = require("check-ends-with-period");
 
     async.eachSeries(words, function iteratee(word, callback) {
-      getTypeWord(word).then(function (res, err) {
+      var text = word.trim().replace("\"","").replace("\'","");
+      if (checkEndsWithPeriod(word, { periodMarks: [".", "?", "!", ","] }).valid) {
+        text = word.substring(0, word.length - 1)
+      } else if (checkEndsWithPeriod(word, { periodMarks: [".\"", ".\'", "!\"", "?\"", "!\'", "?\'"] }).valid) {
+        text = word.substring(0, word.length - 2)
+      }
+
+      getTypeWord(text).then(function (res, err) {
         if (res) {
-          console.log("111");
           results.push({ 'text': word, 'type': res });
           callback();
         }
 
       });
     }, function () {
-      console.log("222");
       resolve(results);
     });
 
